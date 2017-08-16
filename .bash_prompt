@@ -1,0 +1,33 @@
+function __colours ()
+{
+  local blk blu cyn grn non pur red wht yll
+
+  blk='\\\[\\033\[1;30m\\\]' # Black
+  blu='\\\[\\033\[1;34m\\\]' # Blue
+  cyn='\\\[\\033\[1;36m\\\]' # Cyan
+  grn='\\\[\\033\[1;32m\\\]' # Green
+  non='\\\[\\033\[0m\\\]'    # None
+  pur='\\\[\\033\[1;35m\\\]' # Purple
+  red='\\\[\\033\[1;31m\\\]' # Red
+  wht='\\\[\\033\[1;37m\\\]' # Whitex
+  yll='\\\[\\033\[1;33m\\\]' # Yellow
+
+  sed " s!BLK!$blk!g; s!BLU!$blu!g; s!CYN!$cyn!g; s!GRN!$grn!g; s!NON!$non!g;
+        s!PUR!$pur!g; s!RED!$red!g; s!WHT!$wht!g; s!YLL!$yll!g; "
+}
+
+function __git_ps1_flx ()
+{
+  local c="$1" n="$2" g="$( __git_ps1 %s )"
+  [ -n "$g" ] && echo " ($c$g$n)"
+}
+
+GIT_PS1_SHOWDIRTYSTATE=yes
+GIT_PS1_SHOWSTASHSTATE=yes
+GIT_PS1_SHOWUNTRACKEDFILES=yes
+GIT_PS1_SHOWUPSTREAM=auto
+
+__prompt='[RED\uNON: YLL\wNON'
+__prompt+='$( __git_ps1_flx "BLU" "NON" )]\n\$ '
+
+PS1="$( echo "$__prompt" | __colours )"
